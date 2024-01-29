@@ -86,8 +86,13 @@ class AIOCmdline():
 				self.aiorl.add_history(line.strip())
 				await self.handle_input(line.decode().strip())
 	
-	def write(self, s):
-		print(s)
+	def write(self, *args, **kwargs):
+		print(*args, **kwargs)
+	
+	def print(self, *args):
+		self.write('\033[1K\033[1G', end="")
+		self.write(*args)
+		self.write(self.prompt, end="", flush=True)
 	
 	def stop_cmdloop(self):
 		self.stop = True
